@@ -1,99 +1,99 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define ROWS 8
-#define COLUMNS 8
-#define WINLEN 5
+struct Point {
+    int x;
+    int y;
+};
 
-void R2L() {
-	int t, p;
-	int i, j;
-	int k, l, m, ladder;
-	
-	int grid[][COLUMNS] = {{00,01,02,03,04,05,06,07},
-						   {10,11,12,13,14,15,16,17},
-						   {20,21,22,23,24,25,26,27},
-						   {30,31,32,33,34,35,36,37},
-						   {40,41,42,43,44,45,46,47},
-						   {50,51,52,53,54,55,56,57},
-						   {60,61,62,63,64,65,66,67},
-						   {70,71,72,73,74,75,76,77},
-						   };
-	
-	t = 1;
-	for (k = WINLEN - 1; k < ROWS * 2 - 1 - WINLEN + 1; k++) {
-        ladder = 0;
-		for (l = 0; l < t; l++) {
-			j = min(k, 7) - ladder; i = k - j;
-			for (m = 0; m < WINLEN; m++) {
-				cout << i + m << j - m << "\t";
-			} cout << endl;
-			ladder++;
-		}
-		if (k < ROWS - 1) {
-			t++;
-		} else {
-			t--;
-		}
-		cout << endl;
+int distSq(Point p, Point q) {
+    return (p.x - q.x)*(p.x - q.x) +
+           (p.y - q.y)*(p.y - q.y);
+}
+
+
+bool isSquare(Point p1, Point p2, Point p3, Point p4)	{
+//	cout << p1.x << " " << p1.y << endl;
+//    cout << p2.x << " " << p2.y << endl;
+//    cout << p3.x << " " << p3.y << endl;
+//    cout << p4.x << " " << p4.y << endl;
+    
+	int d2 = distSq(p1, p2);  
+    int d3 = distSq(p1, p3);  
+    int d4 = distSq(p1, p4); 
+//    cout << d2 << "\t" << d3 << "\t" << d4 << endl;
+ 
+    // If lengths if (p1, p2) and (p1, p3) are same, then
+    // following conditions must met to form a square.
+    // 1) Square of length of (p1, p4) is same as twice
+    //    the square of (p1, p2)
+    // 2) p4 is at same distance from p2 and p3
+    if (d2 == d3 && 2*d2 == d4)
+    {
+        int d = distSq(p2, p4);
+        return (d == distSq(p3, p4) && d == d2);
     }
+ 
+    // The below two cases are similar to above case
+    if (d3 == d4 && 2*d3 == d2)
+    {
+        int d = distSq(p2, p3);
+        return (d == distSq(p2, p4) && d == d3);
+    }
+    if (d2 == d4 && 2*d2 == d3)
+    {
+        int d = distSq(p2, p3);
+        return (d == distSq(p3, p4) && d == d2);
+    }
+ 
+    return false;
 }
-
-void L2R() {
-	int t;
-	int i, j;
-	int k, l, m, ladder;
-	
-	t = 1;
-	for (k = WINLEN - ROWS; k <= ROWS - WINLEN; k++) {	//difference in row index and col index is fixed for a particular diagonal
-		ladder = 0;
-		for (l = 0; l < t; l++) {
-			j = max(k, 0) + ladder; i = j - k;
-			for (m = 0; m < WINLEN; m++) {
-				cout << i + m << j + m << "\t";
-			} cout << endl;
-			ladder++;
-		}
-		if (k >= 0) {
-			t--;
-		} else {
-			t++;
-		}
-		cout << endl;
-	}
-}
-
 
 int main() {
-	
-	int i, j, k;
-	
-	/*
-	//horizontal
-	for (i = 0; i < ROWS; i++) {
-		for (k = 0; k < COLUMNS - WINLEN + 1; k++) {
-			for (j = k; j < k + WINLEN; j++) {
-				cout << i << j << "\t";
+	int n, i, j, k, l;
+	Point a, b, c, d;
+
+	cout << "Enter number of points (n > 4): ";
+	cin >> n;
+	assert(n > 3);
+	Point points[n];
+
+	cout << "Enter number of points : ";
+	for (i = 0; i < n; i++) {
+		cin >> points[i].x >> points[i].y;
+	}
+//	for (i = 0; i < n; i++) {
+//		cout << points[i].x << " " << points[i].y << endl;
+//	}
+
+	for (i = 0; i < n - 3; i++) {
+		a = points[i];
+//		cout << "A : " << a.x << " " << a.y << endl;
+		for (j = i + 1; j < n - 2; j++) {
+			b = points[j];
+//			cout << "B : " << b.x << " " << b.y << endl;
+			for (k = j + 1; k < n - 1; k++) {
+				c = points[k];
+//				cout << "C : " << c.x << " " << c.y << endl;
+				for (l = k + 1; l < n; l++) {
+					d = points[l];
+//					cout << "D : " << d.x << " " << d.y << endl;
+					//cout << isSquare(a, b, c, d) << endl;
+					if (isSquare(a, b, c, d)) {
+						cout << "Yes\n";
+						cout << a.x << " " << a.y << endl;
+						cout << b.x << " " << b.y << endl;
+						cout << c.x << " " << c.y << endl;
+						cout << d.x << " " << d.y << endl;
+						break;
+					}
+				}
 			}
-			cout << endl;
 		}
 	}
-	
-	cout << "\n--------\n";
-	
-	//vertical
-	for (i = 0; i < ROWS; i++) {
-		for (k = 0; k < COLUMNS - WINLEN + 1; k++) {
-			for (j = k; j < k + WINLEN; j++) {
-				cout << j << i << "\t";
-			}
-			cout << endl;
-		}
+	if (i == n - 3 && j == n - 2 && k == n - 1 && l == n) {
+		cout << "No\n";
 	}
 	
-	*/
-	
-	L2R();
-	R2L();
-	
+	return 0;
 }

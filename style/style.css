@@ -18,7 +18,7 @@ body {
 	height: 100%;
 	text-align: center;
 	font-family: g;
-	background: url('../back.jpg');
+	background: url('../images/back.jpg') 100% 100%;
 }
 
 article {
@@ -76,6 +76,16 @@ article {
 	z-index: 10;
 }
 
+#ex {
+	position: absolute;
+	width: 80%;
+	height: 80%;
+	margin-top: 10%;
+	margin-left: 10%;
+	display: none;
+	z-index: 1;
+}
+
 #game-screen {
 	z-index: 5;
 	width: 100%;
@@ -116,7 +126,7 @@ article {
 	color: white;
 	display: inline-block;
 	width: 20%;
-	margin: 0px 3%;
+	margin: 0px 5%;
 	height: calc(100% - 3px);
 	padding-top: 3px;
 }
@@ -127,22 +137,23 @@ article {
 
 .game-div {
 	border: 1px solid white;
-	width: 12%;
-	height: 10%;
 	display: inline-block;
 	float: left;
-	transition:all .05s;
-	transition:all .05s;
 }
 
-.magnify {
-	-webkit-transform: scale(1.25);
-	-moz-transform: scale(1.25);
+
+.game-div-6 {
+	width: 15.9%;
 }
 
-.minify {
-	-webkit-transform: scale(0.9);
-	-moz-transform: scale(0.9);
+
+.game-div-7 {
+	width: 13.5%;
+}
+
+
+.game-div-8 {
+	width: 11.8%;
 }
 
 #winner {
@@ -170,4 +181,19 @@ span.option img {
 
 span i {
 	font-size: 16px;
+}
+
+#grid-size-picker {
+    bottom: 25%;
+    height: 10%;
+    min-height: 25px;
+    position: absolute;
+    width: 100%;
+}
+
+#grid-size-select {
+    height: 50%;
+    margin-left: 30%;
+    text-align: center;
+    width: 40%;
 }
