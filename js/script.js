@@ -208,6 +208,7 @@ function isSquare(p1, p2, p3, p4) {
         var d = dist(p2, p3);
         return (d == dist(p2, p4) && d == d3);
     }
+
     if (d2 == d4 && 2 * d2 == d3)
     {
         var d = dist(p2, p3);
@@ -234,7 +235,8 @@ function square(plr) {
 				for (l = k + 1; l < n; l++) {
 					var d = arr[l];
 					if (isSquare(a, b, c, d)) {
-						winrecord.push(a); winrecord.push(b); winrecord.push(c); winrecord.push(d);
+						winrecord.push(a); winrecord.push(b);
+						winrecord.push(c); winrecord.push(d);
 						return 1;
 					}
 				}
@@ -249,7 +251,7 @@ function square(plr) {
 
 function declareWinner(plr) {
 	for (var i = 0; i < 4; i++) {
-		$('#' + winrecord[i].x + '' + winrecord[i].y).css("background-color", "red");
+		$('#' + winrecord[i].x + '' + winrecord[i].y).css("background-color", "yellow");
 	}
 
 
